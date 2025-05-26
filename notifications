@@ -1,0 +1,92 @@
+local player = game:getservice("players").localplayer
+if not player then return end
+
+local screengui = player:waitforchild("playergui"):findfirstchild("notificationgui")
+if not screengui then
+    screengui = instance.new("screengui")
+    screengui.name = "notificationgui"
+    screengui.parent = player:waitforchild("playergui")
+    screengui.resetonspawn = false
+end
+
+local notificationcontainer = screengui:findfirstchild("notificationcontainer")
+if not notificationcontainer then
+    notificationcontainer = instance.new("frame")
+    notificationcontainer.name = "notificationcontainer"
+    notificationcontainer.size = udim2.new(0, 300, 0.5, 0)
+    notificationcontainer.position = udim2.new(0.5, -150, 0.3, 0)
+    notificationcontainer.backgroundtransparency = 1
+    notificationcontainer.clipsdescendants = true
+    notificationcontainer.parent = screengui
+end
+
+_g.createnotification = function(text, type)
+    task.spawn(function()
+
+    for _, notif in pairs(notificationcontainer:getchildren()) do
+        if notif:isa("frame") then
+            notif:tweenposition(notif.position - udim2.new(0, 0, 0, 35), "out", "quad", 0.5, true)
+        end
+    end
+
+    local notificationframe = instance.new("frame")
+    notificationframe.size = udim2.new(0, 280, 0, 30)
+    notificationcontainer.position = udim2.new(0.5, -150, 0.45, 0)
+    notificationframe.backgroundcolor3 = color3.fromrgb(40, 40, 40)
+    notificationframe.backgroundtransparency = 1
+    notificationframe.bordersizepixel = 0
+    notificationframe.parent = notificationcontainer
+
+    local uicorner = instance.new("uicorner")
+    uicorner.cornerradius = udim.new(0, 6)
+    uicorner.parent = notificationframe
+
+    local icon = instance.new("imagelabel")
+    icon.size = udim2.new(0, 18, 0, 18)
+    icon.position = udim2.new(0, 6, 0.5, -9)
+    icon.backgroundtransparency = 1
+    icon.imagetransparency = 1
+    icon.parent = notificationframe
+
+    if type == "success" then
+        icon.image = "rbxassetid://11242915823"
+        icon.imagecolor3 = color3.fromrgb(116, 15, 227)
+    elseif type == "warning" then
+        icon.image = "rbxassetid://14865930635"
+        icon.imagecolor3 = color3.fromrgb(116, 15, 227)
+    elseif type == "waiting" then
+        icon.image = "rbxassetid://16968972236"
+        icon.imagecolor3 = color3.fromrgb(116, 15, 227)
+    elseif type == "error" then
+        icon.image = "rbxassetid://6031094677"
+        icon.imagecolor3 = color3.fromrgb(116, 15, 227)
+    end
+
+    local textlabel = instance.new("textlabel")
+    textlabel.size = udim2.new(1, -35, 1, 0)
+    textlabel.position = udim2.new(0, 28, 0, 0)
+    textlabel.text = text
+    textlabel.textcolor3 = color3.fromrgb(180, 180, 180)
+    textlabel.textsize = 14
+    textlabel.font = enum.font.sourcesans
+    textlabel.textxalignment = enum.textxalignment.left
+    textlabel.backgroundtransparency = 1
+    textlabel.texttransparency = 1
+    textlabel.parent = notificationframe
+
+    local tweenservice = game:getservice("tweenservice")
+    tweenservice:create(notificationframe, tweeninfo.new(1.5), {backgroundtransparency = 0.2}):play()
+    tweenservice:create(textlabel, tweeninfo.new(1.5), {texttransparency = 0}):play()
+    tweenservice:create(icon, tweeninfo.new(1.5), {imagetransparency = 0}):play()
+    notificationframe:tweenposition(udim2.new(0, 0, 1, -35), "out", "quad", 0.5, true)
+
+    task.wait(1.5)
+
+    tweenservice:create(notificationframe, tweeninfo.new(1.5), {backgroundtransparency = 1}):play()
+    tweenservice:create(textlabel, tweeninfo.new(1.5), {texttransparency = 1}):play()
+    tweenservice:create(icon, tweeninfo.new(1.5), {imagetransparency = 1}):play()
+
+    task.wait(1.5)
+    notificationframe:destroy()
+    end)
+end
