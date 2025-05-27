@@ -1174,26 +1174,40 @@ do
             Library.KeybindFrame.Size = UDim2.new(0, math.max(XSize + 10, 210), 0, YSize + 23)
         end;
 
-        function KeyPicker:GetState()
-            if KeyPicker.Mode == 'Always' then
-                return true;
-            elseif KeyPicker.Mode == 'Hold' then
-                if KeyPicker.Value == 'None' then
-                    return false;
-                end
+    function KeyPicker:GetState()
+        if KeyPicker.Mode == 'Always' then
+            return true
+        elseif KeyPicker.Mode == 'Hold' then
+            if KeyPicker.Value == 'None' then
+                return false
+            end
 
-                local Key = KeyPicker.Value;
+            local Key = KeyPicker.Value
 
-                if Key == 'MB1' or Key == 'MB2' then
-                    return Key == 'MB1' and InputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
-                        or Key == 'MB2' and InputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2);
-                else
-                    return InputService:IsKeyDown(Enum.KeyCode[KeyPicker.Value]);
-                end;
+            if Key == 'MB1' then
+                return InputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
+            elseif Key == 'MB2' then
+                return InputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2)
+            elseif Key == 'MB3' then
+                return InputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton3)
+            elseif Key == 'MB4' then
+                return InputService:IsKeyDown(Enum.KeyCode.Button4)
+            elseif Key == 'MB5' then
+                return InputService:IsKeyDown(Enum.KeyCode.Button5)
+            elseif Key == 'MB6' then
+                return InputService:IsKeyDown(Enum.KeyCode.Button6)
+            elseif Key == 'MB7' then
+                return InputService:IsKeyDown(Enum.KeyCode.Button7)
+            elseif Key == 'MB8' then
+                return InputService:IsKeyDown(Enum.KeyCode.Button8)
             else
-                return KeyPicker.Toggled;
-            end;
+                return InputService:IsKeyDown(Enum.KeyCode[Key])
+            end
+        else
+            return KeyPicker.Toggled
         end;
+    end;
+
 
         function KeyPicker:SetValue(Data)
             local Key, Mode = Data[1], Data[2];
