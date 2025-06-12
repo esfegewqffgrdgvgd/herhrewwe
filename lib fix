@@ -496,7 +496,7 @@ do
             ZIndex = 17;
             Parent = PickerFrameInner;
         });
-
+        
         local SatVibMapInner = Library:Create('Frame', {
             BackgroundColor3 = Library.BackgroundColor;
             BorderColor3 = Library.OutlineColor;
@@ -659,7 +659,7 @@ do
             Position = UDim2.fromOffset(5, 5);
             TextXAlignment = Enum.TextXAlignment.Left;
             TextSize = 14;
-            Text = ColorPicker.Title,--Info.Default;
+            Text = ColorPicker.Title,
             TextWrapped = false;
             ZIndex = 16;
             Parent = PickerFrameInner;
@@ -2987,8 +2987,19 @@ function Library:CreateWindow(...)
         BorderColor3 = 'AccentColor';
     });
 
+    local Players = game:GetService("Players")
+
+    local image = Instance.new("ImageLabel")
+    image.Size = UDim2.new(0, 22, 0, 22)
+    image.Position = UDim2.new(0, 15, 0, 2)
+    image.Image = "rbxassetid://136994477671319"
+    image.BackgroundTransparency = 1
+    image.ZIndex = 10
+    image.Parent = Inner
+
+
     local WindowLabel = Library:CreateLabel({
-        Position = UDim2.new(0, 7, 0, 0);
+        Position = UDim2.new(0, 45, 0, 0);
         Size = UDim2.new(0, 0, 0, 25);
         Text = Config.Title or '';
         TextXAlignment = Enum.TextXAlignment.Left;
