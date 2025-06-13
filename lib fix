@@ -2697,12 +2697,13 @@ do
 
     local WatermarkOuter = Library:Create('Frame', {
         BorderColor3 = Color3.new(0, 0, 0);
-        Position = UDim2.new(0, 100, 0, -25);
-        Size = UDim2.new(0, 213, 0, 20);
+        Position = UDim2.new(0.5, 0, 0.5, -540);
+        AnchorPoint = Vector2.new(0.5, 0.5);
+        Size = UDim2.new(0, 600, 0, 20);
         ZIndex = 200;
         Visible = false;
         Parent = ScreenGui;
-    });
+    });    
 
     local WatermarkInner = Library:Create('Frame', {
         BackgroundColor3 = Library.MainColor;
@@ -2726,6 +2727,14 @@ do
         Parent = WatermarkInner;
     });
 
+    local image2 = Instance.new("ImageLabel")
+    image2.Size = UDim2.new(0, 22, 0, 22)
+    image2.Position = UDim2.new(0, 5, 0, 0)
+    image2.Image = "rbxassetid://136994477671319"
+    image2.BackgroundTransparency = 1
+    image2.ZIndex = 300
+    image2.Parent = WatermarkInner
+
     local Gradient = Library:Create('UIGradient', {
         Color = ColorSequence.new({
             ColorSequenceKeypoint.new(0, Library:GetDarkerColor(Library.MainColor)),
@@ -2745,8 +2754,8 @@ do
     });
 
     local WatermarkLabel = Library:CreateLabel({
-        Position = UDim2.new(0, 5, 0, 0);
-        Size = UDim2.new(1, -4, 1, 0);
+        Position = UDim2.new(0, 30, 0, 0);
+        Size = UDim2.new(1, -14, 1, 0);
         TextSize = 14;
         TextXAlignment = Enum.TextXAlignment.Left;
         ZIndex = 203;
@@ -2835,7 +2844,7 @@ end;
 
 function Library:SetWatermark(Text)
     local X, Y = Library:GetTextBounds(Text, Library.Font, 14);
-    Library.Watermark.Size = UDim2.new(0, X + 15, 0, (Y * 1.5) + 3);
+    Library.Watermark.Size = UDim2.new(0, X + 40, 0, (Y * 1.5) + 3);
     Library:SetWatermarkVisibility(true)
 
     Library.WatermarkText.Text = Text;
@@ -2996,7 +3005,6 @@ function Library:CreateWindow(...)
     image.BackgroundTransparency = 1
     image.ZIndex = 10
     image.Parent = Inner
-
 
     local WindowLabel = Library:CreateLabel({
         Position = UDim2.new(0, 45, 0, 0);
