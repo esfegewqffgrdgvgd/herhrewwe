@@ -91,26 +91,17 @@ local function GetTeamsString()
 end;
 
 function Library:SafeCallback(f, ...)
-    if (not f) then
-        return;
-    end;
+    if not f then
+        return nil
+    end
 
-    if not Library.NotifyOnError then
-        return f(...);
-    end;
-
-    local success, event = pcall(f, ...);
-
-    if not success then
-        local _, i = event:find(":%d+: ");
-
-        if not i then
-            return Library:Notify(event);
-        end;
-
-        return Library:Notify(event:sub(i + 1), 3);
-    end;
-end;
+    local success, result = pcall(f, ...)
+    if success then
+        return result
+    else
+        return nil
+    end
+end
 
 function Library:AttemptSave()
     if Library.SaveManager then
